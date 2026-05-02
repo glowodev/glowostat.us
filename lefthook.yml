@@ -1,0 +1,20 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{ts,tsx,js,jsx,mjs}"
+      run: pnpm exec oxlint --max-warnings=0 {staged_files}
+    format:
+      glob: "*.{ts,tsx,js,jsx,mjs}"
+      # oxfmt 0.1.0 strips `declare` keyword — exclude .d.ts until it's fixed
+      exclude:
+        - "**/*.d.ts"
+      run: pnpm exec oxfmt --check {staged_files}
+
+pre-push:
+  parallel: true
+  commands:
+    typecheck:
+      run: pnpm run typecheck
+    dead-code:
+      run: pnpm run lint:dead

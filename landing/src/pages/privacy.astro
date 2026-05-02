@@ -1,0 +1,120 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Toast from "../components/Toast.astro";
+import InlineCode from "../components/InlineCode.astro";
+
+const title = "Privacy — glowostat.us";
+const description =
+  "What glowostat.us logs (nothing app-level), what Cloudflare logs (platform metadata), and how to verify the deployed code matches the public source.";
+---
+
+<Layout title={title} description={description}>
+  <Nav />
+
+  <main id="main">
+    <article class="mx-auto max-w-[760px] px-6 pb-24 pt-12">
+      <header>
+        <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+          Privacy
+        </p>
+        <h1 class="mt-3 font-display text-4xl font-bold leading-tight tracking-[-0.02em] text-foreground sm:text-5xl">
+          What glowostat.us does and doesn't log
+        </h1>
+      </header>
+
+      <section class="mt-10 space-y-5 text-[15px] leading-relaxed text-muted">
+        <p>
+          glowostat.us is a public dev utility for testing HTTP status codes.
+          Below is a complete description of what the service does with your
+          request data.
+        </p>
+
+        <h2 class="mt-10 font-display text-2xl font-semibold text-foreground">
+          What we log: nothing app-level
+        </h2>
+        <p>
+          The Worker that serves <InlineCode>/:code</InlineCode>,
+          <InlineCode>/random/*</InlineCode>, and the landing page does not
+          log, store, or analyse your requests. There is no application-level
+          analytics, no error telemetry tied to request content, and no
+          third-party tracker on the landing page.
+        </p>
+        <p>
+          Workers observability is explicitly disabled in
+          <a
+            href="https://github.com/glowodev/glowostat.us/blob/main/wrangler.jsonc"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="text-emerald hover:underline"
+          ><InlineCode>wrangler.jsonc</InlineCode></a>. It may be re-enabled
+          briefly for incident investigation; if that ever happens, the change
+          will be visible in git history.
+        </p>
+
+        <h2 class="mt-10 font-display text-2xl font-semibold text-foreground">
+          What Cloudflare logs: platform metadata
+        </h2>
+        <p>
+          glowostat.us is hosted on Cloudflare Workers. Cloudflare's edge
+          platform aggregates request metadata (source IP, path, status code,
+          latency) for analytics, DDoS protection, and WAF. That collection is
+          platform-level for any service hosted on Cloudflare and is governed
+          by
+          <a
+            href="https://www.cloudflare.com/privacypolicy/"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="text-emerald hover:underline">Cloudflare's privacy policy</a
+          >. We can't opt out of it on your behalf.
+        </p>
+
+        <h2 class="mt-10 font-display text-2xl font-semibold text-foreground">
+          Cookies and storage
+        </h2>
+        <p>
+          The site sets no cookies. The only browser storage used is
+          <InlineCode>localStorage</InlineCode> for one key —
+          <InlineCode>glowostat:snippet-lang:v1</InlineCode> — to remember
+          your preferred snippet language (<InlineCode>curl</InlineCode>,
+          <InlineCode>fetch</InlineCode>, <InlineCode>Python</InlineCode>,
+          <InlineCode>Go</InlineCode>, <InlineCode>Node</InlineCode>). It
+          never leaves your browser.
+        </p>
+
+        <h2 class="mt-10 font-display text-2xl font-semibold text-foreground">
+          Verifying the deployed code
+        </h2>
+        <p>
+          The deployed Worker injects the git SHA and branch into every
+          build. The footer of every page shows the live commit; clicking it
+          opens the matching commit on GitHub. The full source is at
+          <a
+            href="https://github.com/glowodev/glowostat.us"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="text-emerald hover:underline"
+            >github.com/glowodev/glowostat.us</a
+          >.
+        </p>
+
+        <h2 class="mt-10 font-display text-2xl font-semibold text-foreground">
+          Contact
+        </h2>
+        <p>
+          Found something to fix?
+          <a
+            href="https://github.com/glowodev/glowostat.us/issues/new"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="text-emerald hover:underline">Open an issue</a
+          >.
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+  <Toast />
+</Layout>

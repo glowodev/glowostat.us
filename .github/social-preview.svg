@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <defs>
+    <radialGradient id="glow" cx="30%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.18"/>
+      <stop offset="60%" stop-color="#08090d" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1280" height="640" fill="#08090d"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+  <rect width="1280" height="640" fill="url(#glow)"/>
+
+  <!-- Brand mark: scaled-up favicon (5 HTTP-class bars in a rounded square) -->
+  <g transform="translate(96, 144)">
+    <rect width="352" height="352" rx="64" fill="#11141b" stroke="#1d2230" stroke-width="2"/>
+    <g transform="translate(48, 48)">
+      <rect x="0" y="0"   width="256" height="40" rx="10" fill="#60a5fa"/>
+      <rect x="0" y="56"  width="256" height="40" rx="10" fill="#34d399"/>
+      <rect x="0" y="112" width="256" height="40" rx="10" fill="#fbbf24"/>
+      <rect x="0" y="168" width="256" height="40" rx="10" fill="#f472b6"/>
+      <rect x="0" y="224" width="256" height="40" rx="10" fill="#ef4444"/>
+    </g>
+  </g>
+
+  <!-- Right column: copy -->
+  <g transform="translate(528, 0)">
+    <!-- Eyebrow -->
+    <text x="0" y="184" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace"
+          font-size="20" letter-spacing="3" fill="#34d399" font-weight="600">
+      GLOWOSTAT.US
+    </text>
+
+    <!-- Headline -->
+    <text x="0" y="270" font-family="'Space Grotesk', ui-sans-serif, system-ui, sans-serif"
+          font-size="72" font-weight="700" fill="#e8ecf4" letter-spacing="-2">
+      Test every HTTP
+    </text>
+    <text x="0" y="350" font-family="'Space Grotesk', ui-sans-serif, system-ui, sans-serif"
+          font-size="72" font-weight="700" fill="#e8ecf4" letter-spacing="-2">
+      status code.
+    </text>
+
+    <!-- Subhead -->
+    <text x="0" y="412" font-family="'Space Grotesk', ui-sans-serif, system-ui, sans-serif"
+          font-size="26" font-weight="500" fill="#8694b0">
+      Free · edge-served · open source
+    </text>
+
+    <!-- URL chip -->
+    <g transform="translate(0, 460)">
+      <rect width="608" height="56" rx="12" fill="#11141b" stroke="#1d2230" stroke-width="1"/>
+      <text x="24" y="36" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace"
+            font-size="22" fill="#8694b0">
+        $ curl -i
+      </text>
+      <text x="124" y="36" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace"
+            font-size="22" fill="#e8ecf4">
+        https://glowostat.us/
+      </text>
+      <text x="385" y="36" font-family="ui-monospace, 'JetBrains Mono', Menlo, monospace"
+            font-size="22" fill="#34d399" font-weight="600">
+        500
+      </text>
+    </g>
+  </g>
+</svg>

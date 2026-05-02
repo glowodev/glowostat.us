@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #08090d;
+  --color-surface: #11141a;
+  --color-surface-raised: #181c25;
+  --color-foreground: #e8ecf4;
+  --color-muted: #8694b0;
+  --color-dim: #5a6275;
+  --color-border-ghost: rgba(255, 255, 255, 0.06);
+
+  --color-emerald: #34d399;
+  --color-class-1xx: #94a3b8;
+  --color-class-2xx: #34d399;
+  --color-class-3xx: #fbbf24;
+  --color-class-4xx: #fb923c;
+  --color-class-5xx: #fb7185;
+
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Monaco, Consolas,
+    monospace;
+}
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/npm/geist@1.5.1/dist/fonts/geist-sans/Geist-Variable.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/space-grotesk:vf@latest/latin-wght-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/jetbrains-mono:vf@latest/latin-wght-normal.woff2") format("woff2");
+}
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Subtle scanline overlay for hero */
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(255, 255, 255, 0.015) 2px,
+    rgba(255, 255, 255, 0.015) 3px
+  );
+}
+
+/* Faint isometric grid for hero background */
+.iso-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Status class color helpers — used for dynamic class-based styling */
+[data-class="1xx"] { --tile-color: var(--color-class-1xx); }
+[data-class="2xx"] { --tile-color: var(--color-class-2xx); }
+[data-class="3xx"] { --tile-color: var(--color-class-3xx); }
+[data-class="4xx"] { --tile-color: var(--color-class-4xx); }
+[data-class="5xx"] { --tile-color: var(--color-class-5xx); }
+
+/* The wordmark — glowo white + stat.us emerald */
+.wordmark {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.wordmark .brand {
+  color: var(--color-foreground);
+}
+.wordmark .domain {
+  color: var(--color-emerald);
+}

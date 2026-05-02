@@ -1,0 +1,67 @@
+---
+import { statusCodes } from "../data/status-codes";
+
+const total = statusCodes.length;
+
+const shortcuts = [
+  {
+    label: "/random",
+    color: "var(--color-class-1xx)",
+    href: "https://glowostat.us/random/200,500-504",
+  },
+  {
+    label: "?sleep=",
+    color: "var(--color-class-3xx)",
+    href: "https://glowostat.us/500?sleep=2000",
+  },
+  {
+    label: "Accept: application/json",
+    color: "var(--color-class-2xx)",
+    href: "https://glowostat.us/404",
+  },
+];
+---
+
+<header class="relative mx-auto max-w-[920px] px-6 pb-12 pt-16 text-center">
+  <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+    The Periodic Table of HTTP
+  </p>
+  <h1 class="mt-4 font-display text-5xl font-bold leading-[1.05] tracking-[-0.02em] text-foreground sm:text-6xl">
+    Test every HTTP status code.
+    <br />
+    <span class="text-muted">{total} responses, one URL away.</span>
+  </h1>
+  <p class="mx-auto mt-5 max-w-xl text-base text-muted sm:text-lg">
+    Free, edge-served, open-source HTTP status code tester. Hit any code from
+    100 to 599, add delays, return JSON. Click a tile or paste a URL.
+  </p>
+  <div class="mt-7 flex flex-wrap items-center justify-center gap-2">
+    {
+      shortcuts.map((s) => (
+        <a
+          href={s.href}
+          data-copy={s.href}
+          target="_blank"
+          rel="noreferrer noopener"
+          class="group inline-flex items-center gap-2 rounded-lg border border-border-ghost bg-surface-raised/40 px-3 py-1.5 font-mono text-[12px] transition-colors hover:bg-surface-raised"
+          style={`color: ${s.color}`}
+          aria-label={`Open and copy ${s.href}`}
+        >
+          <span>{s.label}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            class="size-3 opacity-50 transition-opacity group-hover:opacity-100"
+            aria-hidden="true"
+          >
+            <rect x="9" y="9" width="13" height="13" rx="2" />
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          </svg>
+        </a>
+      ))
+    }
+  </div>
+</header>

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# /random/* returns a randomly chosen HTTP response from the Worker — not
+# real content. Keep it out of the crawl budget.
+Disallow: /random
+Disallow: /random/
+
+Sitemap: https://glowostat.us/sitemap-index.xml

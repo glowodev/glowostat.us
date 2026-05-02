@@ -1,0 +1,47 @@
+---
+type Props = {
+  label: string;
+  description: string;
+  copyValue: string;
+};
+const { label, description, copyValue } = Astro.props;
+---
+
+<article
+  class="relative flex h-full min-h-[240px] flex-col rounded-xl bg-surface-raised p-6 transition-colors hover:bg-[#1d2230]"
+>
+  <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+    {label}
+  </span>
+
+  <div class="mt-5 font-mono text-[15px] leading-relaxed sm:text-base">
+    <slot />
+  </div>
+
+  <p class="mt-5 text-[13px] leading-relaxed text-muted">
+    {description}
+  </p>
+
+  <div class="mt-auto flex items-center justify-end pt-4">
+    <button
+      type="button"
+      data-copy={copyValue}
+      class="inline-flex items-center gap-1.5 rounded-md border border-border-ghost px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-muted transition-colors hover:border-emerald/40 hover:text-emerald"
+      aria-label={`Copy ${copyValue}`}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        class="size-3"
+        aria-hidden="true"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+      Copy
+    </button>
+  </div>
+</article>

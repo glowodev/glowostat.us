@@ -1,0 +1,47 @@
+{
+  "name": "glowostat",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Public dev utility for testing HTTP status codes",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:landing": "pnpm --filter ./landing dev",
+    "openapi:generate": "tsx scripts/generate-openapi.ts",
+    "build": "pnpm openapi:generate && pnpm --filter ./landing build",
+    "publish:github": "scripts/publish-github.sh",
+    "deploy": "scripts/deploy.sh",
+    "pretest": "pnpm openapi:generate",
+    "test": "vitest",
+    "test:coverage": "pnpm openapi:generate && vitest --run --coverage",
+    "lint": "oxlint",
+    "lint:dead": "knip",
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit && pnpm --filter ./landing typecheck",
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.15.0",
+    "@cloudflare/workers-types": "^4.20251201.0",
+    "@types/node": "^22.10.0",
+    "@vitest/coverage-istanbul": "^4.1.5",
+    "knip": "^6.10.0",
+    "lefthook": "^1.10.0",
+    "oxfmt": "^0.1.0",
+    "oxlint": "^0.15.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.0",
+    "wrangler": "^4.87.0"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^1.3.0",
+    "hono": "^4.6.0",
+    "zod": "^4.4.2"
+  }
+}

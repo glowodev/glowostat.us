@@ -1,0 +1,18 @@
+---
+type Props = {
+  size?: "sm" | "md" | "lg" | "xl";
+  class?: string;
+};
+const { size = "md", class: className = "" } = Astro.props;
+
+const sizeClass = {
+  sm: "text-base",
+  md: "text-lg",
+  lg: "text-2xl",
+  xl: "text-5xl",
+}[size];
+---
+
+<span class={`wordmark ${sizeClass} ${className}`}>
+  <span class="brand">glowo</span><span class="domain">stat.us</span>
+</span>

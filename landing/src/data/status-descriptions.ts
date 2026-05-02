@@ -1,0 +1,93 @@
+// One-sentence description per HTTP status code. Used for SEO content
+// (sr-only dl in the periodic table + per-code deep pages). Kept terse on
+// purpose so it reads well in a list and in <meta name="description">.
+
+const statusDescriptions: Record<number, string> = {
+  // 1xx — Informational
+  100: "The server has received the request headers and the client should proceed sending the body.",
+  101: "The server agrees to switch protocols, typically to a WebSocket connection.",
+  102: "The server has accepted the full request but has not yet completed it (WebDAV).",
+  103: "Early hints sent before the final response — usually preload links.",
+
+  // 2xx — Success
+  200: "Standard success response. The request was handled and the body contains the result.",
+  201: "A new resource was created. The Location header points to it.",
+  202: "The request was accepted for processing but is not complete yet.",
+  203: "The response is a transformed copy from a third-party source, not the origin.",
+  204: "The request succeeded with no body to return.",
+  205: "Success — the client should reset the form or document view.",
+  206: "Partial content delivered in response to a Range request.",
+  207: "Multi-Status — multiple resource statuses returned in the body (WebDAV).",
+  208: "Already reported earlier in this multistatus response (WebDAV).",
+  226: "The server has fulfilled the request using delta encoding (RFC 3229).",
+
+  // 3xx — Redirection
+  300: "Multiple possible responses; the client must pick one.",
+  301: "The resource moved permanently to a new URL. Update bookmarks and links.",
+  302: "Temporary redirect — the resource is found at a different URL for now.",
+  303: "Use a GET request to fetch the resource at the Location URL.",
+  304: "The cached version is still fresh — the server returns no body.",
+  305: "The requested resource must be accessed through a specific proxy (deprecated).",
+  307: "Temporary redirect — repeat the request verbatim at the new URL.",
+  308: "Permanent redirect — repeat the request verbatim at the new URL.",
+
+  // 4xx — Client Error
+  400: "The request is malformed and the server can't process it.",
+  401: "Authentication is required and has failed or has not been provided.",
+  402: "Reserved for future use. Sometimes used for paywall or quota signaling.",
+  403: "The request is understood but refused — credentials don't grant access.",
+  404: "The server can't find the requested resource. The classic dead link.",
+  405: "The HTTP method is not allowed for this resource.",
+  406: "The server can't produce a response matching the Accept headers.",
+  407: "Authentication with the proxy is required first.",
+  408: "The server timed out waiting for the request.",
+  409: "The request conflicts with the current state of the resource.",
+  410: "The resource is gone permanently and won't be coming back.",
+  411: "The request is missing a required Content-Length header.",
+  412: "A precondition in the request headers failed.",
+  413: "The request body is larger than the server is willing to process.",
+  414: "The URI is longer than the server is willing to interpret.",
+  415: "The media type of the request body is not supported.",
+  416: "The Range header asked for a slice the resource can't satisfy.",
+  417: "The server can't meet the requirements of the Expect header.",
+  418: "I'm a teapot. The server refuses to brew coffee — RFC 2324 joke status.",
+  421: "The request was directed at a server that can't produce a response for it.",
+  422: "The request is well-formed but semantically invalid.",
+  423: "The resource is locked (WebDAV).",
+  424: "The request failed because a previous request it depended on failed (WebDAV).",
+  425: "The server refuses to risk processing a replayed request.",
+  426: "The client should switch to a different protocol such as TLS.",
+  428: "The request must be conditional — add an If-Match or If-Unmodified-Since header.",
+  429: "The client has sent too many requests in a given time. Slow down.",
+  431: "The combined size of request headers is too large.",
+  444: "Nginx-specific — the connection was closed without sending a response.",
+  451: "The resource is unavailable for legal reasons (RFC 7725).",
+  494: "Nginx-specific — the request header is too large.",
+  495: "Nginx-specific — the client SSL certificate failed verification.",
+  496: "Nginx-specific — a client SSL certificate was required but not provided.",
+  497: "Nginx-specific — a plain HTTP request was sent to an HTTPS port.",
+  499: "Nginx-specific — the client closed the connection before the server could reply.",
+
+  // 5xx — Server Error
+  500: "Generic server error. Something broke and the server can't be more specific.",
+  501: "The server doesn't recognize or doesn't implement the request method.",
+  502: "The server, acting as a gateway, got an invalid response from the upstream.",
+  503: "The service is temporarily unavailable — overloaded or down for maintenance.",
+  504: "The upstream server didn't reply in time.",
+  505: "The HTTP version used in the request is not supported.",
+  506: "Configuration error — content negotiation produced a circular reference.",
+  507: "The server can't store the representation needed to complete the request (WebDAV).",
+  508: "An infinite loop was detected processing the request (WebDAV).",
+  510: "Further extensions to the request are required for the server to fulfill it.",
+  511: "Network authentication is required — typical of captive portals.",
+  520: "Cloudflare — the origin returned an unknown error.",
+  521: "Cloudflare — the origin web server is down or refusing connections.",
+  522: "Cloudflare — the connection to the origin timed out.",
+  523: "Cloudflare — the origin is unreachable from Cloudflare's network.",
+  524: "Cloudflare — connected to the origin but it didn't respond before the timeout.",
+  525: "Cloudflare — the SSL handshake with the origin failed.",
+  526: "Cloudflare — the origin's SSL certificate is invalid.",
+}
+
+export const describeCode = (code: number, fallback: string): string =>
+  statusDescriptions[code] ?? fallback
