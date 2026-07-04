@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "workspaces": {
+    ".": {
+      "project": ["src/**/*.ts"]
+    },
+    "landing": {
+      "entry": [
+        "src/pages/**/*.astro",
+        "src/scripts/**/*.ts",
+        "src/layouts/**/*.astro"
+      ],
+      "project": ["src/**/*.{ts,astro}"]
+    }
+  },
+  "ignoreDependencies": [
+    "tailwindcss",
+    "cloudflare"
+  ],
+  "ignoreBinaries": [
+    "scripts/publish-github.sh",
+    "scripts/deploy.sh"
+  ]
+}

@@ -1,0 +1,65 @@
+---
+const repoUrl = "https://github.com/glowodev/glowostat.us";
+
+type FooterLink = {
+  href: string;
+  label: string;
+  external: boolean;
+};
+
+const links: FooterLink[] = [
+  { href: "/openapi.json", label: "OpenAPI", external: false },
+  { href: repoUrl, label: "Source", external: true },
+  { href: "/privacy", label: "Privacy", external: false },
+  { href: `${repoUrl}/blob/main/LICENSE`, label: "License", external: true },
+  { href: `${repoUrl}/issues/new`, label: "Report bug", external: true },
+];
+---
+
+<footer class="bg-bg pb-10 pt-16">
+  <div class="mx-auto max-w-[1200px] px-6">
+    <div class="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+      <a
+        href="https://status.glowostat.us"
+        target="_blank"
+        rel="noreferrer noopener"
+        class="inline-flex items-center gap-2 rounded-full border border-border-ghost px-3 py-1.5 font-mono text-[11px] text-emerald transition-colors hover:border-emerald/40"
+        aria-label="View status"
+      >
+        <span class="relative flex size-1.5" aria-hidden="true">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex size-1.5 rounded-full bg-emerald"
+          ></span>
+        </span>
+        Status
+      </a>
+
+      <nav
+        class="flex flex-wrap items-center gap-x-6 gap-y-2"
+        aria-label="Footer"
+      >
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer noopener" : undefined}
+              class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted transition-colors hover:text-emerald"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div class="mt-10 border-t border-border-ghost pt-5">
+      <p class="font-mono text-[10px] uppercase tracking-[0.12em] text-dim">
+        © 2026 G Networks · glowostat.us · MIT
+      </p>
+    </div>
+  </div>
+</footer>

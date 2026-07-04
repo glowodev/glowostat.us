@@ -1,0 +1,139 @@
+---
+import InlineCode from "./InlineCode.astro";
+
+type Item = { q: string; a: string };
+
+// Backticks in `a` mark inline code. They render as styled <code> spans in
+// the visible UI and are stripped from the JSON-LD answer text.
+const items: Item[] = [
+  {
+    q: "What is glowostat.us?",
+    a: "glowostat.us is a free, edge-served HTTP status code tester. Hit any URL like `https://glowostat.us/404` or `https://glowostat.us/500` and the server replies with that exact status. Useful for testing error handlers, retry logic, monitoring, and CI pipelines.",
+  },
+  {
+    q: "How do I test a specific HTTP status code?",
+    a: "Append the code as a path: `GET https://glowostat.us/{code}`. For example, `/404` returns `404 Not Found`, `/503` returns `503 Service Unavailable`, `/418` returns the I'm a Teapot joke status. Every code from `200` to `599` documented in the table is supported.",
+  },
+  {
+    q: "Why aren't 1xx codes supported?",
+    a: "We follow the WHATWG Fetch spec, which only allows `200`–`599` as final responses. 1xx codes (`100 Continue`, `101 Switching Protocols`, `103 Early Hints`) are informational signals sent before the real reply, not a result on their own — per HTTP, a 1xx must always be followed by a final 2xx-5xx. So the spec keeps them out of the supported range here.",
+  },
+  {
+    q: "How do I get a JSON response instead of text?",
+    a: "Send the `Accept: application/json` header. The server returns `{ code, description }` as JSON. Example: `curl -H \"Accept: application/json\" https://glowostat.us/404`.",
+  },
+  {
+    q: "How do I add a delay to the response?",
+    a: "Use the `?sleep=` query parameter with a value in milliseconds. Example: `https://glowostat.us/500?sleep=2000` returns `500` after 2 seconds. The maximum is 65 seconds — deliberately just past the common 60s client timeout, so you can watch it fire without racing the server.",
+  },
+  {
+    q: "Can I get a random status code?",
+    a: "Yes. `GET /random/200,500-504` returns one of those codes at random. Repeat values to weight the distribution. This is handy for chaos testing retry/backoff loops.",
+  },
+  {
+    q: "Can I see what my client actually sends?",
+    a: "Yes. `GET https://glowostat.us/get` echoes the request back as JSON: query `args`, request `headers`, your `origin` IP, and the full `url`. The echo goes only to the caller and nothing is logged.",
+  },
+  {
+    q: "How do I test redirects, Basic Auth, or a slow server?",
+    a: "`/redirect/3` answers with a 3-hop `302` chain ending at `/get` (up to 10 hops) — good for follow-redirect logic and hop limits. `/basic-auth/user/pass` challenges with `401` + `WWW-Authenticate` until you send matching credentials, then returns `200`. `/delay/3` holds the JSON echo for 3 seconds (max 10). There's also a WebSocket echo at `wss://glowostat.us/ws` (text and binary, 60-second connections).",
+  },
+  {
+    q: "How is glowostat.us different from httpbin or httpstat.us?",
+    a: "glowostat.us is open source, edge-served from Cloudflare's 330+ locations (low latency worldwide), and covers both the response simulator (codes, delays, JSON) and httpbin's most-used request tools (`/get`, `/redirect`, `/basic-auth`, `/delay`). There are no logs of your requests. Source and OpenAPI 3.1 spec are public.",
+  },
+  {
+    q: "Is glowostat.us free?",
+    a: "Yes. It's free, public, and MIT licensed. No signup, no API key, no rate limits beyond Cloudflare's standard abuse protection.",
+  },
+];
+
+type Token = { type: "text" | "code"; value: string };
+
+const tokenize = (s: string): Token[] => {
+  const tokens: Token[] = [];
+  let i = 0;
+  while (i < s.length) {
+    const start = s.indexOf("`", i);
+    if (start === -1) {
+      tokens.push({ type: "text", value: s.slice(i) });
+      break;
+    }
+    if (start > i) tokens.push({ type: "text", value: s.slice(i, start) });
+    const end = s.indexOf("`", start + 1);
+    if (end === -1) {
+      // Unterminated backtick — treat the rest as plain text.
+      tokens.push({ type: "text", value: s.slice(start) });
+      break;
+    }
+    tokens.push({ type: "code", value: s.slice(start + 1, end) });
+    i = end + 1;
+  }
+  return tokens;
+};
+
+const stripBackticks = (s: string): string => s.replaceAll("`", "");
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((it) => ({
+    "@type": "Question",
+    name: it.q,
+    acceptedAnswer: { "@type": "Answer", text: stripBackticks(it.a) },
+  })),
+};
+---
+
+<section
+  id="faq"
+  class="mx-auto max-w-[1200px] px-6 pb-32 pt-16"
+>
+  <header class="mx-auto mb-12 max-w-2xl text-center">
+    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+      FAQ
+    </p>
+    <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-foreground sm:text-4xl">
+      Common questions
+    </h2>
+  </header>
+
+  <ul class="mx-auto flex max-w-[820px] flex-col gap-3">
+    {
+      items.map((it) => (
+        <li>
+          <details
+            class="group overflow-hidden rounded-xl border border-border-ghost bg-surface-raised/60 transition-colors hover:bg-surface-raised"
+          >
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-display text-base font-semibold text-foreground [&::-webkit-details-marker]:hidden"
+            >
+              <h3 class="m-0 text-base font-semibold">{it.q}</h3>
+              <span
+                class="font-mono text-[11px] text-muted transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <p class="border-t border-border-ghost px-5 py-4 text-[14px] leading-relaxed text-muted">
+              {tokenize(it.a).map((tok) =>
+                tok.type === "code" ? (
+                  <InlineCode>{tok.value}</InlineCode>
+                ) : (
+                  <Fragment>{tok.value}</Fragment>
+                ),
+              )}
+            </p>
+          </details>
+        </li>
+      ))
+    }
+  </ul>
+
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(faqSchema)}
+  />
+</section>

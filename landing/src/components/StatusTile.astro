@@ -1,0 +1,85 @@
+---
+import type { StatusCode } from "../data/status-codes";
+
+type Props = {
+  code: StatusCode;
+  index: number;
+};
+const { code, index } = Astro.props;
+const idx = String(index + 1).padStart(2, "0");
+---
+
+<a
+  href={`/codes/${code.code}`}
+  data-tile={code.code}
+  data-class={code.class}
+  data-name={code.name}
+  class="tile group relative flex aspect-square w-full flex-col items-center justify-center rounded-lg bg-surface-raised/60 px-2 py-3 text-center transition-all duration-150 hover:bg-surface-raised hover:ring-1 hover:ring-[var(--tile-color)]/30"
+  aria-label={`HTTP ${code.code} ${code.name} — fills the playground, or open page for details`}
+>
+  <span
+    class="absolute left-2 top-1.5 font-mono text-[8px] uppercase tracking-wider text-dim"
+    aria-hidden="true"
+  >
+    Nº{idx}
+  </span>
+
+  {
+    code.popular && (
+      <span
+        class="absolute right-2 top-1.5 text-[10px] text-emerald"
+        aria-label="popular"
+      >
+        ★
+      </span>
+    )
+  }
+
+  {
+    code.emoji && !code.popular && (
+      <span
+        class="absolute right-1.5 top-1 text-[14px]"
+        aria-hidden="true"
+      >
+        {code.emoji}
+      </span>
+    )
+  }
+
+  <span
+    class="font-mono text-2xl font-bold leading-none"
+    style={`color: var(--tile-color)`}
+  >
+    {code.code}
+  </span>
+  <span
+    class="mt-1.5 line-clamp-1 max-w-full font-mono text-[9px] uppercase tracking-[0.04em] text-muted"
+    title={code.name}
+  >
+    {code.shortName}
+  </span>
+
+  <span
+    class="absolute bottom-1.5 right-1.5 opacity-0 transition-opacity group-hover:opacity-100"
+    aria-hidden="true"
+  >
+    <span
+      data-copy={`curl -i https://glowostat.us/${code.code}`}
+      class="copy-icon block rounded p-1 text-dim hover:text-emerald"
+      role="button"
+      tabindex="0"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        class="size-3"
+      >
+        <rect x="9" y="9" width="13" height="13" rx="2" />
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+      </svg>
+    </span>
+  </span>
+</a>

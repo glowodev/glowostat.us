@@ -1,0 +1,7 @@
+---
+// Inline code pill — matches the FAQ and prose styling.
+type Props = { class?: string };
+const { class: extra = "" } = Astro.props;
+---
+
+<code class:list={["rounded-md border border-border-ghost bg-bg/60 px-1.5 py-0.5 font-mono text-[12.5px] text-foreground", extra]}><slot /></code>

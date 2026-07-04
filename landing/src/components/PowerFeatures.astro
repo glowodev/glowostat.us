@@ -1,0 +1,49 @@
+---
+import FeatureCard from "./FeatureCard.astro";
+---
+
+<section
+  id="features"
+  class="mx-auto max-w-[1200px] px-6 pb-32 pt-16"
+  aria-label="Power features"
+>
+  <header class="mx-auto mb-12 max-w-2xl text-center">
+    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+      Features
+    </p>
+    <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-foreground sm:text-4xl">
+      Three knobs you'll actually use.
+    </h2>
+    <p class="mt-3 text-base text-muted">
+      Random codes, configurable delays, JSON responses. All on the same URL pattern.
+    </p>
+  </header>
+
+  <div class="grid gap-6 md:grid-cols-3">
+    <FeatureCard
+      label="Random"
+      description="Returns one code at random from your spec. Repeat values to weight the distribution."
+      copyValue="https://glowostat.us/random/200,500-504"
+    >
+      <span class="text-muted">GET /random/</span><span style="color: var(--color-class-2xx)">200</span><span class="text-muted">,</span><span style="color: var(--color-class-5xx)">500-504</span>
+    </FeatureCard>
+
+    <FeatureCard
+      label="Delay"
+      description="Hold the response for N milliseconds before returning. Caps at 65 seconds — enough to trip any sane client timeout."
+      copyValue="https://glowostat.us/500?sleep=2000"
+    >
+      <span class="text-muted">GET /</span><span style="color: var(--color-class-5xx)">500</span><span style="color: var(--color-class-3xx)">?sleep=2000</span>
+    </FeatureCard>
+
+    <FeatureCard
+      label="JSON"
+      description="Send the Accept header and get JSON: { code, description } instead of text."
+      copyValue='curl -H "Accept: application/json" https://glowostat.us/404'
+    >
+      <span class="text-muted">GET /</span><span style="color: var(--color-class-4xx)">404</span>
+      <br />
+      <span class="text-muted">Accept: </span><span style="color: var(--color-class-2xx)">application/json</span>
+    </FeatureCard>
+  </div>
+</section>

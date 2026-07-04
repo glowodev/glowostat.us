@@ -1,0 +1,22 @@
+---
+// Visible only when JS sets data-show. Driven by the global script.
+---
+
+<div
+  id="toast"
+  class="pointer-events-none fixed bottom-6 left-1/2 z-50 w-[calc(100vw_-_2rem)] max-w-md -translate-x-1/2 translate-y-4 break-all rounded-lg border border-emerald/30 bg-surface-raised/90 px-4 py-2.5 text-center font-mono text-[12px] text-foreground opacity-0 shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur transition-all duration-200"
+  data-state="hidden"
+  role="status"
+  aria-live="polite"
+>
+  <span class="mr-2 text-emerald" aria-hidden="true">✓</span>
+  <span id="toast-text">Copied</span>
+</div>
+
+<style>
+  #toast[data-state="visible"] {
+    opacity: 1;
+    translate: -50% 0;
+    pointer-events: auto;
+  }
+</style>

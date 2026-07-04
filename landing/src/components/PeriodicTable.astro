@@ -1,0 +1,75 @@
+---
+import {
+  classLabels,
+  classOrder,
+  codesByClass,
+  statusCodes,
+} from "../data/status-codes";
+import { describeCode } from "../data/status-descriptions";
+import StatusTile from "./StatusTile.astro";
+---
+
+<section
+  id="table"
+  class="relative mx-auto max-w-[1280px] px-6 pb-32"
+>
+  <div class="iso-grid scanlines absolute inset-0 -z-10 opacity-60"></div>
+
+  <header class="mx-auto mb-10 max-w-2xl px-6 text-center">
+    <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+      Reference
+    </p>
+    <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-foreground sm:text-4xl">
+      Every HTTP status code, in one table
+    </h2>
+    <p class="mt-3 text-base text-muted">
+      200 → 599. Click any tile to test it live, or open
+      <code class="font-mono text-foreground">/&lt;code&gt;</code>
+      in your browser.
+    </p>
+  </header>
+
+  <div class="space-y-10">
+    {
+      classOrder.map((cls) => {
+        const codes = codesByClass(cls);
+        return (
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-8">
+            <div class="w-full shrink-0 sm:w-28">
+              <div
+                class="font-display text-4xl font-bold leading-none"
+                style={`color: var(--color-class-${cls})`}
+              >
+                {cls}
+              </div>
+              <div class="mt-1.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted">
+                {classLabels[cls]}
+              </div>
+            </div>
+
+            <div
+              class="grid w-full flex-1 gap-2"
+              data-class={cls}
+              style="grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));"
+            >
+              {codes.map((code, i) => (
+                <StatusTile code={code} index={i} />
+              ))}
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+
+  <dl class="sr-only">
+    {
+      statusCodes.map((c) => (
+        <>
+          <dt>HTTP {c.code} {c.name}</dt>
+          <dd>{describeCode(c.code, c.name)}</dd>
+        </>
+      ))
+    }
+  </dl>
+</section>

@@ -1,0 +1,55 @@
+node_modules
+.pnpm-store
+bun.lock
+bun.lockb
+
+# coverage / scan artifacts
+coverage
+.scannerwork
+sonar-project.properties
+
+# generated at build time
+landing/public/openapi.json
+.pnp
+.pnp.js
+
+# build output
+dist
+landing/dist
+.astro
+
+# wrangler
+.wrangler
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
+
+# logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# editor
+.idea
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# os
+.DS_Store
+Thumbs.db
+
+# env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# coverage
+coverage
+*.lcov
+
+# misc
+*.tsbuildinfo

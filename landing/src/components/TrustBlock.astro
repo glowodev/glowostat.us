@@ -1,0 +1,119 @@
+---
+import { BUILD_SHA } from "../lib/build";
+import { statusCodes } from "../data/status-codes";
+import { snippetLangs } from "../lib/snippets";
+
+const repoUrl = "https://github.com/glowodev/glowostat.us";
+const commitUrl = `${repoUrl}/commit/${BUILD_SHA}`;
+const licenseUrl = `${repoUrl}/blob/main/LICENSE`;
+
+const stats = [
+  {
+    value: "330+",
+    label: "Edge locations",
+    tint: "var(--color-muted)",
+    href: "https://www.cloudflare.com/network/",
+  },
+  {
+    value: String(statusCodes.length),
+    label: "HTTP codes covered",
+    tint: "var(--color-class-3xx)",
+    href: null as string | null,
+  },
+  {
+    value: String(snippetLangs.length),
+    label: "Client snippets",
+    tint: "var(--color-class-2xx)",
+    href: "#snippets",
+  },
+  {
+    value: BUILD_SHA,
+    label: "Live commit",
+    tint: "var(--color-emerald)",
+    href: commitUrl,
+  },
+];
+---
+
+<section
+  id="trust"
+  class="relative bg-surface py-24"
+  aria-label="Trust"
+>
+  <div
+    class="pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-[600px] -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(52,211,153,0.08),transparent_60%)]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="mx-auto max-w-[1200px] px-6">
+    <header class="mx-auto mb-14 max-w-3xl text-center">
+      <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-emerald">
+        Trust
+      </p>
+      <h2 class="mt-3 font-display text-3xl font-semibold leading-tight tracking-[-0.02em] text-foreground sm:text-4xl">
+        Built to be paste-into-CI safe.
+      </h2>
+    </header>
+
+    <ul class="mx-auto grid max-w-[1080px] grid-cols-2 gap-px overflow-hidden rounded-xl bg-border-ghost lg:grid-cols-4">
+      {
+        stats.map((stat) => {
+          const isExternal = stat.href?.startsWith("http") ?? false
+          const Wrapper = stat.href ? "a" : "div"
+          const wrapperProps = stat.href
+            ? {
+                href: stat.href,
+                target: isExternal ? "_blank" : undefined,
+                rel: isExternal ? "noreferrer noopener" : undefined,
+              }
+            : {}
+          return (
+            <li>
+              <Wrapper
+                {...wrapperProps}
+                class="group flex h-full flex-col items-start gap-1.5 bg-surface-raised p-6 transition-colors hover:bg-[#1d2230]"
+              >
+                <span
+                  class="font-display text-4xl font-bold leading-none tracking-[-0.03em] tabular-nums sm:text-5xl"
+                  style={`color: ${stat.tint}`}
+                >
+                  {stat.value}
+                </span>
+                <span class="mt-3 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                  {stat.label}
+                </span>
+              </Wrapper>
+            </li>
+          )
+        })
+      }
+    </ul>
+
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+      <a
+        href="/openapi.json"
+        class="transition-colors hover:text-emerald"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        OpenAPI 3.1 →
+      </a>
+      <a
+        href={licenseUrl}
+        class="transition-colors hover:text-emerald"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        MIT license →
+      </a>
+      <a
+        href={repoUrl}
+        class="transition-colors hover:text-emerald"
+        rel="noreferrer noopener"
+        target="_blank"
+      >
+        Source →
+      </a>
+    </div>
+  </div>
+</section>
